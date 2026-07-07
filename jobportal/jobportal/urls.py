@@ -9,6 +9,9 @@ def jobs(request):
     jobs = Job.objects.all()
     return render(request, "jobs.html", {"jobs": jobs})
 
+def home(request):
+    return render(request, "home.html")
+
 
 def admin2(request):
     companys = Company.objects.all()
@@ -21,6 +24,7 @@ def jobs(request):
 
 
 urlpatterns = [
+    path("", home, name="home"), 
     path('admin/', admin.site.urls),
     path("admin2/", admin2),
     path("jobs/", jobs, name="jobs"),
