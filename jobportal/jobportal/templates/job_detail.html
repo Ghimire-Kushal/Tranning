@@ -1,27 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ job.title }}</title>
-    <style>
-        body { font-family:-apple-system,sans-serif; background:#f4f5f7; margin:0; padding:40px 20px; color:#1a1a1a; }
-        .box { max-width:700px; margin:0 auto; background:#fff; border-radius:10px; padding:32px; box-shadow:0 1px 3px rgba(0,0,0,.1); }
-        h1 { margin:0 0 4px; }
-        .company { color:#555; font-size:15px; margin:0 0 20px; }
-        .desc { line-height:1.6; margin:0 0 20px; }
-        .dates { font-size:14px; color:#888; margin-bottom:24px; }
-        .back { text-decoration:none; color:#1a73e8; font-size:14px; }
-    </style>
-</head>
-<body>
-    <div class="box">
-        <a href="{% url 'jobs' %}" class="back">← Back to all jobs</a>
-        <h1 style="margin-top:16px;">{{ job.title }}</h1>
-        <p class="company">{{ job.company.name }} — {{ job.company.location }}</p>
+{% extends "base.html" %}
+{% block title %}{{ job.title }} — Rojgār{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card" style="max-width:700px; margin:0 auto;">
+        <a href="{% url 'jobs' %}" style="font-size:14px;">← Back to all jobs</a>
+        <h1 style="margin-top:16px; font-size:28px;">{{ job.title }}</h1>
+        <p class="meta">{{ job.company.name }} — {{ job.company.location }}</p>
         <p class="desc">{{ job.description }}</p>
-        <p class="dates">📅 {{ job.start_date }} → {{ job.end_date }}</p>
-        <p class="dates">📞 {{ job.company.contact_no }}</p>
+        <p class="meta">📅 {{ job.start_date }} → {{ job.end_date }}</p>
+        <p class="meta">📞 {{ job.company.contact_no }}</p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

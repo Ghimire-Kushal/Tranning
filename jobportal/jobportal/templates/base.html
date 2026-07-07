@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Rojgār — Job Portal{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f1ea;
+            --surface: #ffffff;
+            --ink: #1c1b19;
+            --muted: #6f6a61;
+            --line: #e5ddd0;
+            --accent: #1f6f5c;
+            --accent-hover: #185848;
+            --amber: #b47d1e;
+            --danger: #b23b3b;
+            --radius: 12px;
+            --shadow: 0 1px 2px rgba(28,27,25,.04), 0 4px 16px rgba(28,27,25,.05);
+            --serif: "Fraunces", Georgia, serif;
+            --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--accent-hover); }
+
+        /* ---------- Header / nav ---------- */
+        .site-header {
+            position: sticky; top: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 32px;
+            background: rgba(244,241,234,.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+        .brand {
+            font-family: var(--serif);
+            font-weight: 600; font-size: 22px;
+            color: var(--ink); letter-spacing: -.01em;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .brand:hover { color: var(--ink); }
+        .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); display: inline-block; }
+        .nav-links { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+        .nav-links .user { color: var(--muted); }
+        .nav-links .logout { color: var(--danger); }
+        .nav-links a { font-weight: 500; }
+
+        /* ---------- Layout ---------- */
+        .container { width: 100%; max-width: 880px; margin: 0 auto; padding: 48px 24px; flex: 1; }
+        main { flex: 1; display: flex; flex-direction: column; }
+
+        /* ---------- Typography ---------- */
+        h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+        .page-title { font-size: 40px; text-align: center; margin-bottom: 8px; }
+        .page-sub { text-align: center; color: var(--muted); margin-bottom: 40px; }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+            display: inline-block; font-family: var(--sans); font-weight: 600; font-size: 15px;
+            padding: 12px 26px; border-radius: var(--radius); cursor: pointer; border: none;
+            transition: transform .12s ease, background .15s ease;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); }
+        .btn-block { width: 100%; }
+
+        /* ---------- Cards ---------- */
+        .grid { display: grid; gap: 18px; }
+        .card {
+            background: var(--surface); border: 1px solid var(--line);
+            border-radius: var(--radius); padding: 24px 26px; box-shadow: var(--shadow);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(28,27,25,.09); }
+        .card h3 { font-size: 21px; margin-bottom: 4px; }
+        .card h3 a { color: var(--ink); }
+        .card h3 a:hover { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 14px; }
+        .desc { margin: 12px 0; color: #33312d; }
+        .tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; color: var(--amber); font-weight: 500;
+            background: #f6efe0; padding: 4px 10px; border-radius: 999px;
+        }
+        .empty { text-align: center; color: var(--muted); padding: 40px 0; }
+
+        /* ---------- Auth (login / register) ---------- */
+        .auth { display: flex; justify-content: center; align-items: flex-start; padding-top: 24px; }
+        .auth-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 36px; width: 100%; max-width: 380px; }
+        .auth-card h2 { font-size: 28px; text-align: center; margin-bottom: 22px; }
+        .field { margin-bottom: 14px; }
+        .field input {
+            width: 100%; padding: 12px 14px; font-family: var(--sans); font-size: 15px;
+            border: 1px solid var(--line); border-radius: 10px; background: #fdfcf9; color: var(--ink);
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+        .field input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(31,111,92,.12); }
+        .form-msg { color: var(--danger); font-size: 13px; margin-bottom: 12px; text-align: center; }
+        .auth-alt { text-align: center; font-size: 14px; color: var(--muted); margin-top: 18px; }
+
+        /* ---------- Footer ---------- */
+        .site-footer { border-top: 1px solid var(--line); padding: 24px 32px; text-align: center; color: var(--muted); font-size: 13px; }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 560px) {
+            .site-header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+            .container { padding: 32px 18px; }
+            .page-title { font-size: 30px; }
+        }
+    </style>
+    <style>{% block extra_css %}{% endblock %}</style>
+</head>
+<body>
+    <header class="site-header">
+        <a href="{% url 'home' %}" class="brand"><span class="dot"></span>Rojgār</a>
+        <nav class="nav-links">
+            <a href="{% url 'jobs' %}">Jobs</a>
+            {% if user.is_authenticated %}
+                <span class="user">Hi, {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="logout">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        © 2026 Rojgār · Built with Django
+    </footer>
+</body>
+</html>
