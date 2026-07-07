@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+from django.shortcuts import render, get_object_or_404
+from portal.models import Job
 
 def register_view(request):
     if request.method == "POST":
@@ -43,3 +44,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+def job_detail(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    return render(request, "job_detail.html", {"job": job})

@@ -91,7 +91,7 @@
     <div class="grid">
         {% for job in jobs %}
             <div class="card">
-                <h3>{{ job.title }}</h3>
+               <h3><a href="{% url 'job_detail' job.id %}" style="text-decoration:none; color:#1a73e8;">{{ job.title }}</a></h3>
                 <p class="company">{{ job.company.name }} — {{ job.company.location }}</p>
                 <p class="desc">{{ job.description }}</p>
                 <p class="dates">{{ job.start_date }} → {{ job.end_date }}</p>
