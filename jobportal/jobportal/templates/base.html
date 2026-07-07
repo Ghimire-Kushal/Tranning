@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Rojgār — Job Portal{% endblock %}</title>
+    <title>{% block title %}Khoj Kam — Job Portal{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -122,11 +122,11 @@
             .page-title { font-size: 30px; }
         }
     </style>
-    <style>{% block extra_css %}{% endblock %}</style>
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <header class="site-header">
-        <a href="{% url 'home' %}" class="brand"><span class="dot"></span>Rojgār</a>
+        <a href="{% url 'home' %}" class="brand"><span class="dot"></span>Khoj Kam</a>
         <nav class="nav-links">
             <a href="{% url 'jobs' %}">Jobs</a>
             {% if user.is_authenticated %}
@@ -144,7 +144,7 @@
     </main>
 
     <footer class="site-footer">
-        © 2026 Rojgār · Built with Django
+        © 2026 Khoj Kam · Built with Django
     </footer>
 </body>
 </html>
