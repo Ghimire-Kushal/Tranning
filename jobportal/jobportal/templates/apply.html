@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Apply — {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card" style="max-width:700px; margin:0 auto;">
+    <a href="{% url 'job_detail' job.id %}" style="font-size:14px;">← Back to job</a>
+    <h1 style="margin-top:16px; font-size:28px;">Apply for {{ job.title }}</h1>
+    <p class="meta">{{ job.company.name }} — {{ job.company.location }}</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" style="padding:10px 14px; margin:12px 0; border-radius:6px; background:#fdf4e3; color:#8a5a00;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="apply-form" style="margin-top:20px;">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <label for="{{ form.full_name.id_for_label }}">Full name</label>
+        {{ form.full_name }}
+        {{ form.full_name.errors }}
+      </div>
+
+      <div class="form-row">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+
+      <div class="form-row">
+        <label for="{{ form.phone.id_for_label }}">Phone</label>
+        {{ form.phone }}
+        {{ form.phone.errors }}
+      </div>
+
+      <div class="form-row">
+        <label for="{{ form.cover_letter.id_for_label }}">Cover letter</label>
+        {{ form.cover_letter }}
+        {{ form.cover_letter.errors }}
+      </div>
+
+      <div class="form-row">
+        <label for="{{ form.resume.id_for_label }}">Resume (PDF/DOC)</label>
+        {{ form.resume }}
+        {{ form.resume.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="margin-top:12px;">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .form-row { margin-bottom: 16px; }
+  .form-row label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .form-row input[type="text"],
+  .form-row input[type="email"],
+  .form-row input[type="file"],
+  .form-row textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d4cfc7;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background: #faf8f4;
+    box-sizing: border-box;
+  }
+  .form-row textarea { resize: vertical; min-height: 140px; }
+  .form-row input:focus,
+  .form-row textarea:focus {
+    outline: none;
+    border-color: #1a4d3a;
+    background: #fff;
+  }
+  .errorlist {
+    color: #b03a2e;
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    font-size: 13px;
+  }
+</style>
+{% endblock %}

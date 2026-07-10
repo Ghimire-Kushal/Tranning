@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Job
+from .models import Job, Application
+from .forms import ApplicationForm
 
 
 def register_view(request):
@@ -49,3 +51,29 @@ def logout_view(request):
 def job_detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     return render(request, "job_detail.html", {"job": job})
+
+
+@login_required
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    if Application.objects.filter(job=job, applicant=request.user).exists():
+        messages.info(request, "You have already applied for this job.")
+        return redirect("job_detail", job_id=job.id)
+
+    if request.method == "POST":
+        form = ApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.job = job
+            application.applicant = request.user
+            application.save()
+            messages.success(request, "Application submitted successfully!")
+            return redirect("job_detail", job_id=job.id)
+    else:
+        form = ApplicationForm(initial={
+            "full_name": request.user.get_full_name() or request.user.username,
+            "email": request.user.email,
+        })
+
+    return render(request, "apply.html", {"form": form, "job": job})
