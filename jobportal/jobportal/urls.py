@@ -11,6 +11,7 @@ def jobs(request):
 
 def home(request):
     return render(request, "home.html")
+    
 
 
 def admin2(request):
