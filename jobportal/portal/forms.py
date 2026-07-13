@@ -11,4 +11,8 @@ class ApplicationForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={"placeholder": "you@example.com"}),
             "phone": forms.TextInput(attrs={"placeholder": "+977 98..."}),
         }
-        
+# class UserRegisterForm(forms.form):
+#     username = forms.TextInput()
+#     email = forms.EmailInput()
+#     password = forms.PasswordInput()
+    

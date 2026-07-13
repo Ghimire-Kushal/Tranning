@@ -6,7 +6,6 @@ from django.contrib import messages
 from .models import Job, Application
 from .forms import ApplicationForm
 
-
 def register_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -52,6 +51,9 @@ def job_detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     return render(request, "job_detail.html", {"job": job})
 
+# def user_register_view(request):
+#     form = UserRegisterForm()
+#     return render(request, "register.html", {"form" : form})
 
 @login_required
 def apply_job(request, job_id):
