@@ -49,7 +49,11 @@ def logout_view(request):
 
 def job_detail(request, job_id):
     job = get_object_or_404(Job, id=job_id)
-    return render(request, "job_detail.html", {"job": job})
+    already_applied = (
+        request.user.is_authenticated
+        and Application.objects.filter(job=job, applicant=request.user).exists()
+    )
+    return render(request, "job_detail.html", {"job": job, "already_applied": already_applied})
 
 # def user_register_view(request):
 #     form = UserRegisterForm()
@@ -79,3 +83,81 @@ def apply_job(request, job_id):
         })
 
     return render(request, "apply.html", {"form": form, "job": job})
+
+
+
+# from django.shortcuts import render, redirect
+
+# from django.contrib.auth.decorators import login_required
+# from django.contrib.auth import login, logout
+
+# from portal.models import Job
+# from .forms import ApplicantForm, UserRegisterForm, UserLoginForm
+
+# from django.contrib.auth import get_user_model
+# User = get_user_model()
+# # Create your views here.
+
+# def job_detail(request, pk):
+#     jobbbb = Job.objects.get(id=pk)
+#     return render(request, "job_detail.html", 
+#                   {"job": jobbbb, "form": ApplicantForm()})
+
+# @login_required # decorators
+# def handle_applicant(request, pk):
+#     job = Job.objects.get(id=pk)
+#     form = ApplicantForm(request.POST, request.FILES)
+#     if form.is_valid():
+#         applicant = form.save(commit=False)
+#         applicant.job = job
+#         applicant.applicant = request.user
+#         applicant.save()
+#     else:
+#         print(form.errors)
+#     return redirect("job_detail", pk=pk)
+
+
+# def user_logout_view(request):
+#     logout(request)
+#     return redirect("/")
+
+
+# def user_register_view(request):
+#     if request.method == "POST":
+#         form = UserRegisterForm(request.POST)
+#         if form.is_valid():
+#             data = form.cleaned_data
+#             user = User.objects.create(
+#                 username=data.get("username"),
+#                 email=data.get("email")
+#             )
+#             user.set_password(data.get("password"))
+#             user.save()
+#             return redirect("login")
+#     else:
+#         form = UserRegisterForm()
+
+#     return render(request, "register.html", {"form": form})
+
+
+# def user_login_view(request):
+#     if request.method == "POST":
+#         form = UserLoginForm(request.POST)
+#         if form.is_valid():
+#             try:
+#                 user = User.objects.get(
+#                     username=form.cleaned_data.get("username")
+#                 )
+#             except User.DoesNotExist:
+#                 #TODO: message invalid username
+#                 return redirect("login")
+#             if user.check_password(form.cleaned_data.get("password")):
+#                 login(request, user)
+#                 return redirect("jobs")
+#             else:
+#                 # TODO: Message invalid password
+#                 return redirect("login")
+#     else:
+#         form = UserLoginForm()
+
+#     return render(request, "login.html", {"form": form})

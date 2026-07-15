@@ -5,6 +5,6 @@ urlpatterns = [
     path("register/", views.register_view, name="register"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
-    path("job/<int:job_id>/", views.job_detail, name="job_detail"), 
-    path("job/<int:job_id>/apply/", views.apply_job, name="apply_job"),  # ← dynamic
-] 
+    path("job/<int:job_id>/", views.job_detail, name="job_detail"),
+    path("job/<int:job_id>/apply/", views.apply_job, name="apply_job"),
+]
